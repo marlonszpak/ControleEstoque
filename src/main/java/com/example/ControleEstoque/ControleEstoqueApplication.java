@@ -9,5 +9,5 @@ public class ControleEstoqueApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ControleEstoqueApplication.class, args);
 	}
-	//Teste de commit
+	// Teste de commit
 }
