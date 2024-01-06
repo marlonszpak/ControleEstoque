@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/estoque")
 public class ProdutoController {
 
@@ -26,6 +28,11 @@ public class ProdutoController {
         var produto = new Produto();
         BeanUtils.copyProperties(produtoRecordDTO, produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoRepository.save(produto));
+    }
+
+    @GetMapping("/produto")
+    public ResponseEntity<List<Produto>> obterTodosProdutos(){
+        return ResponseEntity.status(HttpStatus.OK).body((List<Produto>) produtoRepository.findAll());
     }
 
     @GetMapping("/produto/{id}")
