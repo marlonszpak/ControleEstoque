@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 import jakarta.validation.Valid;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,12 +38,12 @@ public class ProdutoController {
     }
 
     @GetMapping("/produto/{id}")
-    public ResponseEntity<Object> obterProdutoPorId(@PathVariable(value = "id") Long id){
+    public ResponseEntity<Iterable> obterProdutoPorId(@PathVariable(value = "id") Long id){
         Optional<Produto> produto = produtoRepository.findById(id);
         if (produto.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singleton("Produto não encontrado."));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(produto.get());
+        return ResponseEntity.status(HttpStatus.OK).body(Collections.singleton(produto.get()));
     }
 
     @PutMapping("/produto/{id}")

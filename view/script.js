@@ -1,4 +1,4 @@
-const url = "http://localhost:8080/estoque/produto"
+const url = "http://localhost:8080/estoque/produto/1"
 
 function hideLoader(){
     document.getElementById("loading").style.display = "none"
@@ -6,10 +6,10 @@ function hideLoader(){
 
 function show(produtos){
     let tab =  `<thead>
-                    <th scope="column">ID<th>
-                    <th scope="column">Nome<th>
-                    <th scope="column">Endereço<th>
-                    <th scope="column">Quantidade<th>
+                    <th scope="column">ID</th>
+                    <th scope="column">Nome</th>
+                    <th scope="column">Endereço</th>
+                    <th scope="column">Quantidade</th>
                 </thead>`
 
 
@@ -28,7 +28,7 @@ function show(produtos){
 }
 
 async function getAPI(url){
-    const response = await fetch(url, { method: "get" } )
+    const response = await  fetch(url, { method: 'GET' })
 
     var data = await response.json()
     console.log(data)
