@@ -2,17 +2,21 @@ package com.example.ControleEstoque.controllers;
 
 import com.example.ControleEstoque.dtos.UsuarioRecordDTO;
 import com.example.ControleEstoque.models.Usuario;
+import com.example.ControleEstoque.models.enums.ProfileEnum;
 import com.example.ControleEstoque.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping
@@ -20,12 +24,17 @@ import java.util.Optional;
 public class UsuarioController {
 
     @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
     @PostMapping("/usuario")
     public ResponseEntity<Usuario> novoUsuario(@Valid UsuarioRecordDTO usuarioRecordDTO){
         var usuario = new Usuario();
-        BeanUtils.copyProperties(UsuarioRecordDTO, usuario);
+        usuario.setSenha(this.bCryptPasswordEncoder.encode(usuario.getSenha()));
+        usuario.setProfiles(Stream.of(ProfileEnum.USER.getCode()).collect(Collectors.toSet()));
+        BeanUtils.copyProperties(usuarioRecordDTO, usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuario));
     }
 
@@ -50,6 +59,7 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado.");
         }
         var user = usuario.get();
+        user.setSenha(this.bCryptPasswordEncoder.encode(user.getSenha()));
         BeanUtils.copyProperties(usuarioRecordDTO, user);
         return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(user));
     }
