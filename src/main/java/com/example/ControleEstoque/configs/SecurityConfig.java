@@ -19,9 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.lucasangelo.todosimple.security.JWTAuthenticationFilter;
-import com.lucasangelo.todosimple.security.JWTAuthorizationFilter;
-import com.lucasangelo.todosimple.security.JWTUtil;
+
 
 @Configuration
 @EnableWebSecurity
