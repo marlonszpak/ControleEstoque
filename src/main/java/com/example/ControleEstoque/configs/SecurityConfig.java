@@ -2,6 +2,9 @@ package com.example.ControleEstoque.configs;
 
 import java.util.Arrays;
 
+import com.example.ControleEstoque.security.JWTAuthenticationFilter;
+import com.example.ControleEstoque.security.JWTAuthorizationFilter;
+import com.example.ControleEstoque.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

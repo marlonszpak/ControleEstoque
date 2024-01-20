@@ -19,7 +19,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByUsername(username);
+        Usuario usuario = this.usuarioRepository.findByUsername(username);
         if (Objects.isNull(usuario));
             throw new UsernameNotFoundException("Usuario não encontrado: " + username);
         return new UserSpringSecurity(usuario.getId(),usuario.getNome(),usuario.getSenha(),usuario.getProfiles());
