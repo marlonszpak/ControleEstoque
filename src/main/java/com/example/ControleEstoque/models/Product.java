@@ -27,15 +27,19 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", length = 100, nullable = false, unique = true)
+    @Column(name = "name", length = 100, nullable = false, unique = true)
     @Size(min = 2, max = 100)
     @NotBlank
-    private String username;
+    private String name;
 
-    @Column(name = "referencia", length = 60, nullable = false)
+    @Column(name = "reference", length = 60, nullable = false)
     @Size(min = 8, max = 60)
     @NotBlank
-    private String referencia;
+    private String reference;
+
+    @Column(name = "amount")
+    @NotBlank
+    private Integer amount;
 
     @Column(name = "profile", nullable = false)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -43,12 +47,12 @@ public class Product {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Integer> profiles = new HashSet<>();
 
-    public Set<ProfileEnum> getProfiles() {
-        return this.profiles.stream().map(x -> ProfileEnum.toEnum(x)).collect(Collectors.toSet());
-    }
-
-    public void addProfile(ProfileEnum profileEnum) {
-        this.profiles.add(profileEnum.getCode());
-    }
+//    public Set<ProfileEnum> getProfiles() {
+//        return this.profiles.stream().map(x -> ProfileEnum.toEnum(x)).collect(Collectors.toSet());
+//    }
+//
+//    public void addProfile(ProfileEnum profileEnum) {
+//        this.profiles.add(profileEnum.getCode());
+//    }
 
 }
