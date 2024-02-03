@@ -32,7 +32,6 @@ public class Product {
     private String name;
 
     @Column(name = "reference", length = 60, nullable = false)
-    @Size(min = 8, max = 60)
     @NotBlank
     private String reference;
 
