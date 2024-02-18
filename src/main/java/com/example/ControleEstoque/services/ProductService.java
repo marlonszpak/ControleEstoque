@@ -1,15 +1,17 @@
 package com.example.ControleEstoque.services;
 
 import com.example.ControleEstoque.models.Product;
-import com.example.ControleEstoque.models.User;
 import com.example.ControleEstoque.repositories.ProductRepository;
-import org.springframework.security.core.parameters.P;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Service
 public class ProductService {
 
+    @Autowired
     private ProductRepository productRepository;
 
     public Product findById(Long id){
@@ -20,7 +22,6 @@ public class ProductService {
 
     @Transactional
     public Product create(Product obj){
-        //Product product = new Product(Product);
         obj.setId(null);
         obj = this.productRepository.save(obj);
         return obj;

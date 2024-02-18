@@ -1,9 +1,11 @@
 package com.example.ControleEstoque.controllers;
 
 import com.example.ControleEstoque.models.Product;
+import com.example.ControleEstoque.repositories.ProductRepository;
 import com.example.ControleEstoque.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
