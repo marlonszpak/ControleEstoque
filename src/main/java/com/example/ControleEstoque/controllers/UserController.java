@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/estoque/user")
 @Validated
 public class UserController {
 

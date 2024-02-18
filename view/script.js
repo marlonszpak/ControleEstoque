@@ -1,10 +1,10 @@
-const url = "http://localhost:8080/estoque/produto/1"
+const url = "http://localhost:8080/estoque/product/1"
 
 function hideLoader(){
     document.getElementById("loading").style.display = "none"
 }
 
-function show(produtos){
+function show(products){
     let tab =  `<thead>
                     <th scope="column">ID</th>
                     <th scope="column">Nome</th>
@@ -13,18 +13,18 @@ function show(produtos){
                 </thead>`
 
 
-    for (let produto of produtos) {
+    for (let product of products) {
        tab += `
             <tr>
-                <td scope="row">${produto.id}</td>
-                <td>${produto.nome}</td>
-                <td>${produto.endereco}</td>
-                <td>${produto.quantidade}</td>
+                <td scope="row">${product.id}</td>
+                <td>${product.name}</td>
+                <td>${product.reference}</td>
+                <td>${product.amount}</td>
             </tr>
             `
     }
 
-    document.getElementById("produtos").innerHTML = tab
+    document.getElementById("products").innerHTML = tab
 }
 
 async function getAPI(url){
