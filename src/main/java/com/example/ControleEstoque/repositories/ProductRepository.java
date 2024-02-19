@@ -1,8 +1,6 @@
 package com.example.ControleEstoque.repositories;
 
 
-import java.util.List;
-
 import com.example.ControleEstoque.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

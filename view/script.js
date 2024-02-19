@@ -28,7 +28,7 @@ function show(products){
 }
 
 async function getAPI(url){
-    const response = await  fetch(url, { method: 'GET' })
+    const response = await  fetch(url, { method: "GET" })
 
     var data = await response.json()
     console.log(data)
