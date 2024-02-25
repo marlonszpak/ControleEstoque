@@ -1,4 +1,5 @@
-const url = "http://localhost:8080/estoque/product/1"
+const url = "http://localhost:8080/estoque/product/2"
+
 
 function hideLoader(){
     document.getElementById("loading").style.display = "none"
@@ -13,13 +14,13 @@ function show(products){
                 </thead>`
 
 
-    for (let product of products) {
+    for (let product in products) {
        tab += `
             <tr>
                 <td scope="row">${product.id}</td>
-                <td>${product.name}</td>
-                <td>${product.reference}</td>
-                <td>${product.amount}</td>
+                <td scope="row">${product.name}</td>
+                <td scope="row">${product.reference}</td>
+                <td scope="row">${product.amount}</td>
             </tr>
             `
     }
@@ -28,12 +29,12 @@ function show(products){
 }
 
 async function getAPI(url){
-    const response = await  fetch(url, { method: "GET" })
+    const response = await fetch(url, { method: "GET" })
 
     var data = await response.json()
-    console.log(data)
     if(response) hideLoader()
     show(data)
 }
 
 getAPI(url)
+

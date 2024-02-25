@@ -5,15 +5,15 @@ import com.example.ControleEstoque.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-@CrossOrigin
+@RestController
 @RequestMapping("/estoque")
-@Controller
+@Validated
 public class ProductController {
 
     @Autowired
@@ -26,13 +26,15 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<Void> create(@RequestBody @Valid Product obj){
+    @Validated
+    public ResponseEntity<Void> create(@Valid Product obj){
         this.productService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/product/{id}")
+    @Validated
     private ResponseEntity<Void> update(@Valid @RequestBody Product obj, @PathVariable Long id){
         obj.setId(id);
         this.productService.update(obj);

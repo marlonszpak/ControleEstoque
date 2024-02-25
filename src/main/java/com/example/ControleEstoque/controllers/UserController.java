@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/estoque/user")
+@RequestMapping("/estoque")
 @Validated
 public class UserController {
 
@@ -26,6 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/user")
+    @Validated
     public ResponseEntity<Void> create(@Valid @RequestBody User obj){
         this.userService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(obj.getId()).toUri();
@@ -33,6 +34,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
+    @Validated
     public ResponseEntity<Void> update(@Valid @RequestBody User obj, @PathVariable Long id) {
         obj.setId(id);
         this.userService.update(obj);
