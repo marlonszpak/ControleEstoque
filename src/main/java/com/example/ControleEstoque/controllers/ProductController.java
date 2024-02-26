@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/estoque")
@@ -20,9 +21,9 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id){
+    public ResponseEntity<Iterable<Product>> findById(@PathVariable Long id){
         Product obj = this.productService.findById(id);
-        return ResponseEntity.ok(obj);
+        return ResponseEntity.ok(Collections.singleton(obj));
     }
 
     @PostMapping("/product")

@@ -1,4 +1,4 @@
-const url = "http://localhost:8080/estoque/product/2"
+const url = "http://localhost:8080/estoque/product/1"
 
 
 function hideLoader(){
@@ -14,7 +14,7 @@ function show(products){
                 </thead>`
 
 
-    for (let product in products) {
+    for (let product of products) {
        tab += `
             <tr>
                 <td scope="row">${product.id}</td>
