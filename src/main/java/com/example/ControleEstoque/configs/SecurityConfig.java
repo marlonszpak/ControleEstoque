@@ -2,15 +2,20 @@ package com.example.ControleEstoque.configs;
 
 import java.util.Arrays;
 
+import com.example.ControleEstoque.security.JWTAuthenticationFilter;
+import com.example.ControleEstoque.security.JWTAuthorizationFilter;
+import com.example.ControleEstoque.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,10 +23,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import com.lucasangelo.todosimple.security.JWTAuthenticationFilter;
-import com.lucasangelo.todosimple.security.JWTAuthorizationFilter;
-import com.lucasangelo.todosimple.security.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +48,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().disable();
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(request -> {
+                    request.requestMatchers("/users")
+                            .hasAnyAuthority("USER", "ADMIN");
+                }).formLogin(Customizer.withDefaults()).build();
 
         AuthenticationManagerBuilder authenticationManagerBuilder = http
                 .getSharedObject(AuthenticationManagerBuilder.class);
@@ -56,8 +62,8 @@ public class SecurityConfig {
         this.authenticationManager = authenticationManagerBuilder.build();
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
-                .antMatchers(PUBLIC_MATCHERS).permitAll()
+                .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+                .requestMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated().and()
                 .authenticationManager(authenticationManager);
 
@@ -65,7 +71,9 @@ public class SecurityConfig {
         http.addFilter(new JWTAuthorizationFilter(this.authenticationManager, this.jwtUtil,
                 this.userDetailsService));
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.csrf(csrf -> csrf.disable())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .build();
 
         return http.build();
     }
