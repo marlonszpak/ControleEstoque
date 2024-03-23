@@ -46,6 +46,9 @@ public class Product {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Integer> profiles = new HashSet<>();
 
+    public Product(Product product) {
+    }
+
 //    public Set<ProfileEnum> getProfiles() {
 //        return this.profiles.stream().map(x -> ProfileEnum.toEnum(x)).collect(Collectors.toSet());
 //    }

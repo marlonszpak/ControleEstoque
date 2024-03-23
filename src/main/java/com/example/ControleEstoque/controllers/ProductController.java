@@ -1,6 +1,7 @@
 package com.example.ControleEstoque.controllers;
 
 import com.example.ControleEstoque.models.Product;
+import com.example.ControleEstoque.repositories.ProductRepository;
 import com.example.ControleEstoque.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/estoque")
 @Validated
 public class ProductController {
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private ProductService productService;
@@ -24,6 +29,11 @@ public class ProductController {
     public ResponseEntity<Iterable<Product>> findById(@PathVariable Long id){
         Product obj = this.productService.findById(id);
         return ResponseEntity.ok(Collections.singleton(obj));
+    }
+    @GetMapping("/product")
+    public ResponseEntity getAllProducts(){
+        List<Product> productList = this.productRepository.findAll();
+        return ResponseEntity.ok(productList);
     }
 
     @PostMapping("/product")
